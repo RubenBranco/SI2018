@@ -253,10 +253,11 @@ class SokobanProblem(Problem):
                 goal_positions.append(k)
             elif state.graph[k] == '*':
                 box_positions.append(k)
-        
+
         for box in box_positions:
             for goal_position in goal_positions:
-                distances.append(GraphUtil.euclidean_distance(box, goal_position))
+                distances.append(
+                    GraphUtil.euclidean_distance(box, goal_position))
 
         return sum(distances) / len(distances) if distances else 0
 
@@ -267,23 +268,65 @@ class SokobanProblem(Problem):
         restocker_position = state.find_restocker()
         box_positions = []
         distances = []
-        
+
         for k in graph:
             if state.graph[k] == "*":
                 box_positions.append(k)
 
         for box in box_positions:
-            distances.append(GraphUtil.euclidean_distance(box, restocker_position))
+            distances.append(GraphUtil.euclidean_distance(
+                box, restocker_position))
 
         return cost + (sum(distances) / len(distances)) if distances else cost
-        
+
+    def h3(self, node):
+        cost = self.h2(node)
+        state = node.state
+        graph = state.graph
+        max_y = max(list(map(lambda x: x[1], graph.keys())))
+        max_x = max(list(map(lambda x: x[0], graph.keys())))
+        box_positions = []
+        goal_positions = []
+
+        for k in state.graph:
+            if state.graph[k] == "o" or state.graph[k] == "B":
+                goal_positions.append(k)
+            elif state.graph[k] == '*':
+                box_positions.append(k)
+
+        for box in box_positions:
+            pos_up = GraphUtil.get_coords_up(box)
+            pos_down = GraphUtil.get_coords_down(box)
+            pos_left = GraphUtil.get_coords_left(box)
+            pos_right = GraphUtil.get_coords_right(box)
+            column_goals = False
+            row_goals = False
+
+            for goal_pos in goal_positions:
+                if goal_pos[1] == box[1]:
+                    column_goals = True
+                if goal_pos[0] == box[0]:
+                    row_goals = True
+
+            if ((graph[pos_left] == '#' or graph[pos_right] == '#') and graph[pos_down] == '#') or ((graph[pos_left] == '#' or graph[pos_right] == '#') and graph[pos_up] == '#'):
+                cost += 1000
+
+            if (graph[pos_left] == '#' or graph[pos_right] == '#') and not column_goals:
+                cost += 100
+
+            if (graph[pos_up] == '#' or graph[pos_down] == '#') and not row_goals:
+                cost += 100
+            
+        return cost
+
 
 if __name__ == "__main__":
-    initial_graph = graph_from_file("data/puzzle2.txt")
-    initial_state = SokobanState(initial_graph)
-    problem = SokobanProblem(initial_state)
-    #resultado = uniform_cost_search(problem)
-    #print(resultado.path())
-    #print(len(resultado.path()))
-    resultado = astar_search(problem, problem.h2)
-    print(resultado.solution(), resultado.path_cost, len(resultado.solution()))
+    initial_graph = graph_from_file("data/puzzle3.txt")
+    print(graph_to_string(initial_graph))
+    # initial_state = SokobanState(initial_graph)
+    # problem = SokobanProblem(initial_state)
+    # #resultado = uniform_cost_search(problem)
+    # # print(resultado.path())
+    # # print(len(resultado.path()))
+    # resultado = astar_search(problem, problem.h3)
+    # print(resultado.solution(), resultado.path_cost, len(resultado.solution()))
