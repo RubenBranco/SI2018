@@ -1,6 +1,7 @@
 from search import *
 from input_output import *
 import copy
+import math
 
 
 class GraphUtil:
@@ -24,6 +25,10 @@ class GraphUtil:
     @staticmethod
     def get_coords_right(coords):
         return (coords[0] + 1, coords[1])
+
+    @staticmethod
+    def euclidean_distance(coord1, coord2):
+        return math.sqrt((coord2[0] - coord1[0])**2 + (coord2[1] - coord1[1])**2)
 
 
 class SokobanState:
@@ -237,11 +242,31 @@ class SokobanProblem(Problem):
             return c + 2
         return c + 1
 
+    def h1(self, node):
+        state = node.state
+        goal_positions = []
+        box_positions = []
+        distances = []
+
+        for k in state.graph:
+            if state.graph[k] == "o" or state.graph[k] == "B":
+                goal_positions.append(k)
+            elif state.graph[k] == '*':
+                box_positions.append(k)
+        
+        for box in box_positions:
+            for goal_position in goal_positions:
+                distances.append(GraphUtil.euclidean_distance(box, goal_position))
+
+        return sum(distances) / len(distances) if distances else 0
+        
 
 if __name__ == "__main__":
     initial_graph = graph_from_file("data/puzzle3.txt")
     initial_state = SokobanState(initial_graph)
     problem = SokobanProblem(initial_state)
-    resultado = uniform_cost_search(problem)
-    print(resultado.path())
-    print(len(resultado.path()))
+    #resultado = uniform_cost_search(problem)
+    #print(resultado.path())
+    #print(len(resultado.path()))
+    resultado = astar_search(problem, problem.h1)
+    print(resultado.solution(), resultado.path_cost, len(resultado.solution()))
