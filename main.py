@@ -259,14 +259,31 @@ class SokobanProblem(Problem):
                 distances.append(GraphUtil.euclidean_distance(box, goal_position))
 
         return sum(distances) / len(distances) if distances else 0
+
+    def h2(self, node):
+        cost = self.h1(node)
+        state = node.state
+        graph = state.graph
+        restocker_position = state.find_restocker()
+        box_positions = []
+        distances = []
+        
+        for k in graph:
+            if state.graph[k] == "*":
+                box_positions.append(k)
+
+        for box in box_positions:
+            distances.append(GraphUtil.euclidean_distance(box, restocker_position))
+
+        return cost + (sum(distances) / len(distances)) if distances else cost
         
 
 if __name__ == "__main__":
-    initial_graph = graph_from_file("data/puzzle3.txt")
+    initial_graph = graph_from_file("data/puzzle2.txt")
     initial_state = SokobanState(initial_graph)
     problem = SokobanProblem(initial_state)
     #resultado = uniform_cost_search(problem)
     #print(resultado.path())
     #print(len(resultado.path()))
-    resultado = astar_search(problem, problem.h1)
+    resultado = astar_search(problem, problem.h2)
     print(resultado.solution(), resultado.path_cost, len(resultado.solution()))
