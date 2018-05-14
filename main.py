@@ -321,10 +321,11 @@ class SokobanProblem(Problem):
 
 
 if __name__ == "__main__":
-    initial_graph = graph_from_file("data/puzzle3.txt")
-    print(graph_to_string(initial_graph))
-    # initial_state = SokobanState(initial_graph)
-    # problem = SokobanProblem(initial_state)
+    initial_graph = graph_from_file("data/puzzle1.txt")
+    initial_state = SokobanState(initial_graph)
+    problem = SokobanProblem(initial_state)
+    resultado = astar_search(problem, problem.h3)
+    print(resultado.solution(), len(resultado.solution()))
     # #resultado = uniform_cost_search(problem)
     # # print(resultado.path())
     # # print(len(resultado.path()))

@@ -196,14 +196,19 @@ def graph_search(problem, frontier):
     If two paths reach a state, only use the first one. [Figure 3.7]"""
     frontier.append(Node(problem.initial))
     explored = set()
+    total_nodes = 0
     while frontier:
         node = frontier.pop()
+        total_nodes += 1
         if problem.goal_test(node.state):
+            print(total_nodes)
             return node
         explored.add(node.state)
         frontier.extend(child for child in node.expand(problem)
                         if child.state not in explored and
                         child not in frontier)
+
+    print(total_nodes)
     return None
 
 
@@ -226,18 +231,23 @@ def breadth_first_search(problem):
     """[Figure 3.11]"""
     node = Node(problem.initial)
     if problem.goal_test(node.state):
+        print("0")
         return node
     frontier = FIFOQueue()
     frontier.append(node)
+    total_nodes = 0
     explored = set()
     while frontier:
         node = frontier.pop()
+        total_nodes += 1
         explored.add(node.state)
         for child in node.expand(problem):
             if child.state not in explored and child not in frontier:
                 if problem.goal_test(child.state):
+                    print(total_nodes)
                     return child
                 frontier.append(child)
+    print(total_nodes)
     return None
 
 
@@ -252,13 +262,17 @@ def best_first_graph_search(problem, f):
     f = memoize(f, 'f')
     node = Node(problem.initial)
     if problem.goal_test(node.state):
+        print("0")
         return node
     frontier = PriorityQueue(min, f)
     frontier.append(node)
     explored = set()
+    total_nodes = 0
     while frontier:
         node = frontier.pop()
+        total_nodes += 1
         if problem.goal_test(node.state):
+            print(total_nodes)
             return node
         explored.add(node.state)
         for child in node.expand(problem):
@@ -269,6 +283,7 @@ def best_first_graph_search(problem, f):
                 if f(child) < f(incumbent):
                     del frontier[incumbent]
                     frontier.append(child)
+    print(total_nodes)
     return None
 
 
