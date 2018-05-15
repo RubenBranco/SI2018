@@ -283,8 +283,6 @@ class SokobanProblem(Problem):
         cost = self.h2(node)
         state = node.state
         graph = state.graph
-        max_y = max(list(map(lambda x: x[1], graph.keys())))
-        max_x = max(list(map(lambda x: x[0], graph.keys())))
         box_positions = []
         goal_positions = []
 
@@ -321,7 +319,7 @@ class SokobanProblem(Problem):
 
 
 if __name__ == "__main__":
-    initial_graph = graph_from_file("data/puzzle1.txt")
+    initial_graph = graph_from_file("data/puzzle4.txt")
     initial_state = SokobanState(initial_graph)
     problem = SokobanProblem(initial_state)
     resultado = astar_search(problem, problem.h3)
