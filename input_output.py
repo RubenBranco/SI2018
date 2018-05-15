@@ -25,3 +25,10 @@ def graph_to_string(graph):
         string += '\n'
 
     return string
+
+def path_to_sequence(path):
+    i = 1
+    for node in path:
+        print("\nPasso {}\n".format(i))
+        print(graph_to_string(node.state.graph))
+        i += 1
