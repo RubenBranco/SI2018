@@ -292,25 +292,28 @@ def uniform_cost_search(problem):
     return best_first_graph_search(problem, lambda node: node.path_cost)
 
 
-def depth_limited_search(problem, limit=50):
+def depth_limited_search(problem, limit=50, nodes_visited=0):
     """[Figure 3.17]"""
-    def recursive_dls(node, problem, limit):
+    def recursive_dls(node, problem, limit, nodes_visited):
+        nodes_visited += 1
         if problem.goal_test(node.state):
+            print(nodes_visited)
             return node
         elif limit == 0:
             return 'cutoff'
         else:
             cutoff_occurred = False
             for child in node.expand(problem):
-                result = recursive_dls(child, problem, limit - 1)
+                result = recursive_dls(child, problem, limit - 1, nodes_visited)
                 if result == 'cutoff':
                     cutoff_occurred = True
                 elif result is not None:
+                    print(nodes_visited)
                     return result
             return 'cutoff' if cutoff_occurred else None
 
     # Body of depth_limited_search:
-    return recursive_dls(Node(problem.initial), problem, limit)
+    return recursive_dls(Node(problem.initial), problem, limit, nodes_visited)
 
 
 def iterative_deepening_search(problem):
