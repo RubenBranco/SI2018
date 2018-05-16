@@ -314,7 +314,46 @@ class SokobanProblem(Problem):
 
             if (graph[pos_up] == '#' or graph[pos_down] == '#') and not row_goals:
                 cost += 100
+
+        return cost
+
+    def h4(self, node):
+        cost = self.h3(node)
+        cost_modifier = 4
+        radius = 3
+        state = node.state
+        graph = state.graph
+        box_positions = []
+        goal_positions = []
+
+        for k in state.graph:
+            if state.graph[k] == "o" or state.graph[k] == "B":
+                goal_positions.append(k)
+            elif state.graph[k] == '*':
+                box_positions.append(k)
+
+        for box in box_positions:
+            pos_up = GraphUtil.get_coords_up(box)
+            pos_down = GraphUtil.get_coords_down(box)
+            pos_left = GraphUtil.get_coords_left(box)
+            pos_right = GraphUtil.get_coords_right(box)
+            goal_in_radius = 0
+
+            if (graph[pos_left] == '#' and graph[pos_right] != '#' and graph[pos_up] != '#'
+                and graph[pos_down] != '#') or (graph[pos_right] == '#' and graph[pos_up] != '#'
+                                                and graph[pos_down] != '#' and graph[pos_left] != '#'):
+                for goal in goal_positions:
+                    if goal[0] in range(box[0] - radius, box[0] + radius + 1):
+                        goal_in_radius += 1
+            elif (graph[pos_up] == '#' and graph[pos_left] != '#' and graph[pos_right] != '#'
+                  and graph[pos_down] != '#') or (graph[pos_down] == '#' and graph[pos_up] != '#'
+                                                  and graph[pos_left] != '#' and graph[pos_right] != '#'):
+                for goal in goal_positions:
+                    if goal[1] in range(box[1] - radius, box[1] + radius + 1):
+                        goal_in_radius += 1
             
+            cost += (len(goal_positions) - goal_in_radius) * cost_modifier
+
         return cost
 
 
@@ -322,10 +361,10 @@ if __name__ == "__main__":
     initial_graph = graph_from_file("data/puzzle4.txt")
     initial_state = SokobanState(initial_graph)
     problem = SokobanProblem(initial_state)
-    resultado = astar_search(problem, problem.h3)
+    resultado = iterative_deepening_search(problem)
     print(resultado.solution(), len(resultado.solution()))
-    # #resultado = uniform_cost_search(problem)
-    # # print(resultado.path())
-    # # print(len(resultado.path()))
+    #resultado = uniform_cost_search(problem)
+    # print(resultado.path())
+    # print(len(resultado.path()))
     # resultado = astar_search(problem, problem.h3)
     # print(resultado.solution(), resultado.path_cost, len(resultado.solution()))
