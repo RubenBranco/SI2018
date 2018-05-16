@@ -40,6 +40,12 @@ Estados visitados: 19
 Solução: ['Move up', 'Push left', 'Move down', 'Move left', 'Push up']
 Ações: 5
 
+#### Heuristic 4 P1
+
+Estados visitados: 19
+Solução: ['Move up', 'Push left', 'Move down', 'Move left', 'Push up']
+Ações: 5
+
 ### Iterative Deepening Search w/ Depth Limiting Search P1
 
 Estados visitados: 21
@@ -86,6 +92,16 @@ Estados visitados: 601
 Solução: ['Move left', 'Move left', 'Move down', 'Move down', 'Move right', 'Push up', 'Move left', 'Move up', 'Push right', 'Push right', 'Move up', 'Move up', 'Move left', 'Push down', 'Move right', 'Move right', 'Move right', 'Move down', 'Move down', 'Move left', 'Push up', 'Move left', 'Move up', 'Move left', 'Push down', 'Move left', 'Move down', 'Move down', 'Move right', 'Push up', 'Move left', 'Move up', 'Push right', 'Push right', 'Move up', 'Move up', 'Move right', 'Move right', 'Move down', 'Push left', 'Push down', 'Move left', 'Move left', 'Move up', 'Push right']
 Ações: 45
 
+#### Heuristic 4 P2
+
+Estados visitados: 574
+Solução: ['Move left', 'Move left', 'Move down', 'Move down', 'Move right', 'Push up', 'Move left', 'Move up', 'Push right', 'Push right', 'Move up', 'Move up', 'Move left', 'Push down', 'Push down', 'Move right', 'Move up', 'Move right', 'Move right', 'Move down', 'Move down', 'Move left', 'Push up', 'Move left', 'Move left', 'Move left', 'Move down', 'Move down', 'Move right', 'Push up', 'Move left', 'Move up', 'Push right', 'Push right', 'Move up', 'Move up', 'Move right', 'Move right', 'Move down', 'Move down', 'Move down', 'Move left', 'Push up', 'Move left', 'Move up', 'Move up', 'Move right', 'Push down', 'Push down']
+Ações: 49
+
+### Iterative Deepening Search w/ Depth Limiting Search P2
+
+2 mins e 57s não conseguiu
+
 ## Puzzle 3
 
 ### Depth First Graph Search P3
@@ -114,6 +130,14 @@ Ações: 45
 
 2mins e 42s não conseguiu
 
+#### Heuristic 4 P3
+
+2 mins e não conseguiu
+
+### Iterative Deepening Search w/ Depth Limiting Search P3
+
+2 mins e 47s não conseguiu
+
 ## Puzzle 4
 
 ### Depth First Graph Search P4
@@ -141,3 +165,11 @@ Ações: 45
 #### Heuristic 3 P4
 
 2 mins não conseguiu
+
+#### Heuristic 4 P4
+
+2 mins e 25s não conseguiu
+
+### Iterative Deepening Search w/ Depth Limiting Search P4
+
+1 min e 58s não conseguiu
