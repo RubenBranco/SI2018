@@ -173,3 +173,141 @@ Ações: 49
 ### Iterative Deepening Search w/ Depth Limiting Search P4
 
 1 min e 58s não conseguiu
+
+## Puzzle 5
+
+### Depth First Graph Search P5
+
+Estados visitados: 35
+Solução: ['Move left', 'Move left', 'Move up', 'Move up', 'Move right', 'Push down', 'Move right', 'Move down', 'Push left']
+Ações: 9
+
+### Breadth First Search P5
+
+Estados visitados: 18
+Solução: ['Move up', 'Push left', 'Move up', 'Move left', 'Push down']
+Ações: 5
+
+### Uniform Cost Search P5
+
+Estados visitados: 44
+Solução: ['Move up', 'Push left', 'Move up', 'Move left', 'Push down']
+Ações: 5
+
+### A* P5
+
+#### Heuristic 1 P5
+
+Estados visitados: 25
+Solução: ['Move up', 'Push left', 'Move up', 'Move left', 'Push down']
+Ações: 5
+
+#### Heuristic 2 P5
+
+Estados visitados: 17
+Solução: ['Move up', 'Push left', 'Move up', 'Move left', 'Push down']
+Ações: 5
+
+#### Heuristic 3 P5
+
+Estados visitados: 16
+Solução: ['Move up', 'Push left', 'Move up', 'Move left', 'Push down']
+Ações: 5
+
+#### Heuristic 4 P5
+
+Estados visitados: 16
+Solução: ['Move up', 'Push left', 'Move up', 'Move left', 'Push down']
+Ações: 5
+
+### Iterative Deepening Search w/ Depth Limiting Search P5
+
+Estados visitados: 21
+Solução: ['Move up', 'Push left', 'Move up', 'Move left', 'Push down']
+Ações: 5
+
+## Puzzle 6
+
+### Depth First Graph Search P6
+
+Estados visitados: 634
+Solução: ['Move right', 'Move right', 'Move up', 'Move up', 'Move left', 'Move left', 'Move left', 'Push down', 'Move right', 'Move down', 'Move down', 'Push left', 'Move right', 'Move up', 'Move right', 'Move right', 'Move up', 'Move up', 'Move left', 'Move left', 'Move left', 'Move down', 'Push down', 'Move left', 'Push down', 'Push right', 'Move down', 'Move right', 'Push up', 'Push up', 'Move right', 'Move right', 'Move up', 'Move up', 'Move left', 'Move left', 'Move left', 'Move down', 'Push right']
+Ações: 39
+
+### Breadth First Search P6
+
+Estados visitados: 1295
+Solução: ['Move down', 'Push left', 'Move up', 'Move right', 'Move up', 'Move up', 'Move left', 'Push down', 'Push down', 'Move left', 'Push down', 'Push right', 'Move down', 'Move right', 'Push up', 'Push up', 'Move left', 'Move up', 'Push right']
+Ações: 19
+
+### Uniform Cost Search P6
+
+Estados visitados: 1875
+Solução: ['Move down', 'Push left', 'Move up', 'Move right', 'Move up', 'Move up', 'Move left', 'Push down', 'Push down', 'Move left', 'Push down', 'Push right', 'Move down', 'Move right', 'Push up', 'Push up', 'Move left', 'Move up', 'Push right']
+Ações: 19
+
+### A* P6
+
+#### Heuristic 1 P6
+
+Estados visitados: 1478
+Solução: ['Move down', 'Push left', 'Move up', 'Move right', 'Move up', 'Move up', 'Move left', 'Push down', 'Push down', 'Move left', 'Push down', 'Push right', 'Move down', 'Move right', 'Push up', 'Push up', 'Move left', 'Move up', 'Push right']
+Ações: 19
+
+#### Heuristic 2 P6
+
+Estados visitados: 1156
+Solução: ['Move down', 'Push left', 'Move up', 'Move right', 'Move up', 'Move up', 'Move left', 'Push down', 'Push down', 'Move left', 'Push down', 'Push right', 'Move down', 'Move right', 'Push up', 'Push up', 'Move left', 'Move up', 'Push right']
+Ações: 19
+
+#### Heuristic 3 P6
+
+Estados visitados: 749
+Solução: ['Move down', 'Push left', 'Move up', 'Move left', 'Push down', 'Move up', 'Move right', 'Move right', 'Move up', 'Move up', 'Move left', 'Push down', 'Move right', 'Move down', 'Move down', 'Move left', 'Move left', 'Move up', 'Push right', 'Move down', 'Move right', 'Push up', 'Move left', 'Move up', 'Push right']
+Ações: 25
+
+#### Heuristic 4 P6
+
+Estados visitados: 753
+Solução: ['Move down', 'Push left', 'Move up', 'Move left', 'Push down', 'Move up', 'Move right', 'Move right', 'Move up', 'Move up', 'Move left', 'Push down', 'Move right', 'Move down', 'Move down', 'Move left', 'Move left', 'Move up', 'Push right', 'Move down', 'Move right', 'Push up', 'Move left', 'Move up', 'Push right']
+Ações: 25
+
+### Iterative Deepening Search w/ Depth Limiting Search P6
+
+Não conseguiu
+
+## Puzzle 7
+
+### Depth First Graph Search P7
+
+Não conseguiu
+
+### Breadth First Search P7
+
+Não conseguiu
+
+### Uniform Cost Search P7
+
+Não conseguiu
+
+### A* P7
+
+#### Heuristic 1 P7
+
+Não conseguiu
+
+#### Heuristic 2 P7
+
+Não conseguiu
+
+#### Heuristic 3 P7
+
+Não conseguiu
+
+#### Heuristic 4 P7
+
+Não conseguiu
+
+### Iterative Deepening Search w/ Depth Limiting Search P7
+
+Não conseguiu
