@@ -358,11 +358,13 @@ class SokobanProblem(Problem):
 
 
 if __name__ == "__main__":
-    initial_graph = graph_from_file("data/puzzle4.txt")
+    initial_graph = graph_from_file("data/puzzle3.txt")
     initial_state = SokobanState(initial_graph)
     problem = SokobanProblem(initial_state)
-    resultado = iterative_deepening_search(problem)
+    resultado = iterative_deepening_search_astar(problem, 1000, problem.h3)
     print(resultado.solution(), len(resultado.solution()))
+    # path_to_sequence(resultado.path())
+    #print(resultado.solution(), len(resultado.solution()))
     #resultado = uniform_cost_search(problem)
     # print(resultado.path())
     # print(len(resultado.path()))

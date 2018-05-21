@@ -251,6 +251,36 @@ def breadth_first_search(problem):
     return None
 
 
+def depth_limited_best_first_graph_search(problem, f, depth_limit):
+    f = memoize(f, 'f')
+    node = Node(problem.initial)
+    if problem.goal_test(node.state):
+        print("0")
+        return node
+    frontier = PriorityQueue(min, f)
+    frontier.append(node)
+    explored = set()
+    total_nodes = 0
+    while frontier:
+        node = frontier.pop()
+        total_nodes += 1
+        if problem.goal_test(node.state):
+            print(total_nodes)
+            return node
+        explored.add(node.state)
+        if node.depth < depth_limit:
+            for child in node.expand(problem):
+                if child.state not in explored and child not in frontier:
+                    frontier.append(child)
+                elif child in frontier:
+                    incumbent = frontier[child]
+                    if f(child) < f(incumbent):
+                        del frontier[incumbent]
+                        frontier.append(child)
+    print(total_nodes)
+    return None
+
+
 def best_first_graph_search(problem, f):
     """Search the nodes with the lowest f scores first.
     You specify the function f(node) that you want to minimize; for example,
@@ -321,6 +351,13 @@ def iterative_deepening_search(problem):
     for depth in range(sys.maxsize):
         result = depth_limited_search(problem, depth)
         if result != 'cutoff':
+            return result
+
+def iterative_deepening_search_astar(problem, depth_limit, h=None):
+    h = memoize(h or problem.h, 'h')
+    for depth in range(depth_limit):
+        result = depth_limited_best_first_graph_search(problem, lambda n: n.path_cost + h(n), depth)
+        if result is not None:
             return result
 
 # ______________________________________________________________________________
