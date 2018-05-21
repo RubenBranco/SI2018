@@ -238,6 +238,10 @@ Não
 
 1 min e 58s não conseguiu
 
+### Iterative Deepening Search w/ A* Max Depth 1000 P4
+
+Não conseguiu
+
 ## Puzzle 5
 
 ### Depth First Graph Search P5
@@ -287,6 +291,36 @@ Ações: 5
 ### Iterative Deepening Search w/ Depth Limiting Search P5
 
 Estados visitados: 21
+Solução: ['Move up', 'Push left', 'Move up', 'Move left', 'Push down']
+Ações: 5
+
+### Iterative Deepening Search w/ A* Max Depth 1000 P5
+
+#### Heuristic 1 IDS P5
+
+Depth: 5
+Estados visitados: 25
+Solução: ['Move up', 'Push left', 'Move up', 'Move left', 'Push down']
+Ações: 5
+
+#### Heuristic 2 IDS P5
+
+Depth: 5
+Estados vistados: 17
+Solução: ['Move up', 'Push left', 'Move up', 'Move left', 'Push down']
+Ações: 5
+
+#### Heuristic 3 IDS P5
+
+Depth: 5
+Estados visitados: 16
+Solução: ['Move up', 'Push left', 'Move up', 'Move left', 'Push down']
+Ações: 5
+
+#### Heuristic 4 IDS P5
+
+Depth: 5
+Estados visitados: 16
 Solução: ['Move up', 'Push left', 'Move up', 'Move left', 'Push down']
 Ações: 5
 
@@ -340,6 +374,36 @@ Ações: 25
 
 Não conseguiu
 
+### Iterative Deepening Search w/ A* Max Depth 1000 P6
+
+#### Heuristic 1 IDS P6
+
+Depth: 19
+Estados visitados: 1440
+Solução: ['Move down', 'Push left', 'Move up', 'Move right', 'Move up', 'Move up', 'Move left', 'Push down', 'Push down', 'Move left', 'Push down', 'Push right', 'Move down', 'Move right', 'Push up', 'Push up', 'Move left', 'Move up', 'Push right']
+Ações: 19
+
+#### Heuristic 2 IDS P6
+
+Depth: 19
+Estados visitados: 1154
+Solução: ['Move down', 'Push left', 'Move up', 'Move right', 'Move up', 'Move up', 'Move left', 'Push down', 'Push down', 'Move left', 'Push down', 'Push right', 'Move down', 'Move right', 'Push up', 'Push up', 'Move left', 'Move up', 'Push right']
+Ações: 19
+
+#### Heuristic 3 IDS P6
+
+Depth: 23
+Estados visitados: 771
+Solução: ['Move up', 'Move up', 'Move left', 'Push down', 'Move right', 'Move down', 'Move down', 'Move down', 'Move left', 'Move left', 'Move up', 'Move up', 'Push right', 'Push down', 'Move right', 'Push up', 'Move left', 'Move up', 'Push right', 'Move down', 'Move down', 'Move down', 'Push left']
+Ações: 23
+
+#### Heuristic 4 IDS P6
+
+Depth: 23
+Estados visitados: 689
+Solução: ['Move down', 'Move down', 'Move left', 'Push up', 'Move left', 'Move up', 'Push right', 'Move down', 'Move right', 'Push up', 'Move right', 'Move up', 'Move up', 'Move left', 'Move left', 'Push down', 'Push right', 'Move left', 'Push down', 'Push down', 'Move right', 'Move down', 'Push left']
+Ações: 23
+
 ## Puzzle 7
 
 ### Depth First Graph Search P7
@@ -373,5 +437,9 @@ Não conseguiu
 Não conseguiu
 
 ### Iterative Deepening Search w/ Depth Limiting Search P7
+
+Não conseguiu
+
+### Iterative Deepening Search w/ A* Max Depth 1000 P7
 
 Não conseguiu
