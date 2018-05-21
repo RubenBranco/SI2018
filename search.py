@@ -353,11 +353,12 @@ def iterative_deepening_search(problem):
         if result != 'cutoff':
             return result
 
-def iterative_deepening_search_astar(problem, depth_limit, h=None):
+def iterative_deepening_search_astar(problem, depth_limit, depth_start=0, h=None):
     h = memoize(h or problem.h, 'h')
-    for depth in range(depth_limit):
+    for depth in range(depth_start, depth_limit):
         result = depth_limited_best_first_graph_search(problem, lambda n: n.path_cost + h(n), depth)
         if result is not None:
+            print(depth)
             return result
 
 # ______________________________________________________________________________
