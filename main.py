@@ -297,23 +297,23 @@ class SokobanProblem(Problem):
             pos_down = GraphUtil.get_coords_down(box)
             pos_left = GraphUtil.get_coords_left(box)
             pos_right = GraphUtil.get_coords_right(box)
-            column_goals = False
-            row_goals = False
+            #column_goals = False
+            #row_goals = False
 
-            for goal_pos in goal_positions:
-                if goal_pos[1] == box[1]:
-                    column_goals = True
-                if goal_pos[0] == box[0]:
-                    row_goals = True
+            # for goal_pos in goal_positions:
+            #     if goal_pos[1] == box[1]:
+            #         column_goals = True
+            #     if goal_pos[0] == box[0]:
+            #         row_goals = True
 
             if ((graph[pos_left] == '#' or graph[pos_right] == '#') and graph[pos_down] == '#') or ((graph[pos_left] == '#' or graph[pos_right] == '#') and graph[pos_up] == '#'):
                 cost += 1000
 
-            if (graph[pos_left] == '#' or graph[pos_right] == '#') and not column_goals:
-                cost += 100
+            #if (graph[pos_left] == '#' or graph[pos_right] == '#') and not column_goals:
+            #    cost += 100
 
-            if (graph[pos_up] == '#' or graph[pos_down] == '#') and not row_goals:
-                cost += 100
+            #if (graph[pos_up] == '#' or graph[pos_down] == '#') and not row_goals:
+            #    cost += 100
 
         return cost
 
@@ -358,10 +358,10 @@ class SokobanProblem(Problem):
 
 
 if __name__ == "__main__":
-    initial_graph = graph_from_file("data/puzzle3.txt")
+    initial_graph = graph_from_file("data/puzzle9.txt")
     initial_state = SokobanState(initial_graph)
     problem = SokobanProblem(initial_state)
-    resultado = iterative_deepening_search_astar(problem, 1000, problem.h3)
+    resultado = iterative_deepening_search_astar(problem, 1000, h=problem.h4)
     print(resultado.solution(), len(resultado.solution()))
     # path_to_sequence(resultado.path())
     #print(resultado.solution(), len(resultado.solution()))
