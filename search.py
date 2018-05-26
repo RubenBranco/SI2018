@@ -201,15 +201,13 @@ def graph_search(problem, frontier):
         node = frontier.pop()
         total_nodes += 1
         if problem.goal_test(node.state):
-            print(total_nodes)
-            return node
+            return node, total_nodes
         explored.add(node.state)
         frontier.extend(child for child in node.expand(problem)
                         if child.state not in explored and
                         child not in frontier)
 
-    print(total_nodes)
-    return None
+    return None, total_nodes
 
 
 def breadth_first_tree_search(problem):
@@ -230,12 +228,11 @@ def depth_first_graph_search(problem):
 def breadth_first_search(problem):
     """[Figure 3.11]"""
     node = Node(problem.initial)
+    total_nodes = 0
     if problem.goal_test(node.state):
-        print("0")
-        return node
+        return node, total_nodes
     frontier = FIFOQueue()
     frontier.append(node)
-    total_nodes = 0
     explored = set()
     while frontier:
         node = frontier.pop()
@@ -244,29 +241,25 @@ def breadth_first_search(problem):
         for child in node.expand(problem):
             if child.state not in explored and child not in frontier:
                 if problem.goal_test(child.state):
-                    print(total_nodes)
-                    return child
+                    return child, total_nodes
                 frontier.append(child)
-    print(total_nodes)
-    return None
+    return None, total_nodes
 
 
 def depth_limited_best_first_graph_search(problem, f, depth_limit):
     f = memoize(f, 'f')
     node = Node(problem.initial)
+    total_nodes = 0
     if problem.goal_test(node.state):
-        print("0")
-        return node
+        return node, total_nodes
     frontier = PriorityQueue(min, f)
     frontier.append(node)
     explored = set()
-    total_nodes = 0
     while frontier:
         node = frontier.pop()
         total_nodes += 1
         if problem.goal_test(node.state):
-            print(total_nodes)
-            return node
+            return node, total_nodes
         explored.add(node.state)
         if node.depth < depth_limit:
             for child in node.expand(problem):
@@ -277,8 +270,7 @@ def depth_limited_best_first_graph_search(problem, f, depth_limit):
                     if f(child) < f(incumbent):
                         del frontier[incumbent]
                         frontier.append(child)
-    print(total_nodes)
-    return None
+    return None, total_nodes
 
 
 def best_first_graph_search(problem, f):
@@ -291,19 +283,17 @@ def best_first_graph_search(problem, f):
     a best first search you can examine the f values of the path returned."""
     f = memoize(f, 'f')
     node = Node(problem.initial)
+    total_nodes = 0
     if problem.goal_test(node.state):
-        print("0")
-        return node
+        return node, total_nodes
     frontier = PriorityQueue(min, f)
     frontier.append(node)
     explored = set()
-    total_nodes = 0
     while frontier:
         node = frontier.pop()
         total_nodes += 1
         if problem.goal_test(node.state):
-            print(total_nodes)
-            return node
+            return node, total_nodes
         explored.add(node.state)
         for child in node.expand(problem):
             if child.state not in explored and child not in frontier:
@@ -313,8 +303,7 @@ def best_first_graph_search(problem, f):
                 if f(child) < f(incumbent):
                     del frontier[incumbent]
                     frontier.append(child)
-    print(total_nodes)
-    return None
+    return None, total_nodes
 
 
 def uniform_cost_search(problem):
@@ -327,20 +316,18 @@ def depth_limited_search(problem, limit=50, nodes_visited=0):
     def recursive_dls(node, problem, limit, nodes_visited):
         nodes_visited += 1
         if problem.goal_test(node.state):
-            print(nodes_visited)
-            return node
+            return node, nodes_visited
         elif limit == 0:
-            return 'cutoff'
+            return 'cutoff', nodes_visited
         else:
             cutoff_occurred = False
             for child in node.expand(problem):
                 result = recursive_dls(child, problem, limit - 1, nodes_visited)
-                if result == 'cutoff':
+                if result[0] == 'cutoff':
                     cutoff_occurred = True
-                elif result is not None:
-                    print(nodes_visited)
+                elif result[0] is not None:
                     return result
-            return 'cutoff' if cutoff_occurred else None
+            return ('cutoff',) if cutoff_occurred else (None,)
 
     # Body of depth_limited_search:
     return recursive_dls(Node(problem.initial), problem, limit, nodes_visited)
@@ -350,16 +337,15 @@ def iterative_deepening_search(problem):
     """[Figure 3.18]"""
     for depth in range(sys.maxsize):
         result = depth_limited_search(problem, depth)
-        if result != 'cutoff':
-            return result
+        if result[0] != 'cutoff':
+            return result[0], result[1], depth
 
 def iterative_deepening_search_astar(problem, depth_limit, depth_start=0, h=None):
     h = memoize(h or problem.h, 'h')
     for depth in range(depth_start, depth_limit):
         result = depth_limited_best_first_graph_search(problem, lambda n: n.path_cost + h(n), depth)
-        if result is not None:
-            print(depth)
-            return result
+        if result[0] is not None:
+            return result[0], result[1], depth
 
 # ______________________________________________________________________________
 # Bidirectional Search
