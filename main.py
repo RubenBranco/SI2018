@@ -303,23 +303,9 @@ class SokobanProblem(Problem):
             pos_down = GraphUtil.get_coords_down(box)
             pos_left = GraphUtil.get_coords_left(box)
             pos_right = GraphUtil.get_coords_right(box)
-            #column_goals = False
-            #row_goals = False
-
-            # for goal_pos in goal_positions:
-            #     if goal_pos[1] == box[1]:
-            #         column_goals = True
-            #     if goal_pos[0] == box[0]:
-            #         row_goals = True
 
             if ((graph[pos_left] == '#' or graph[pos_right] == '#') and graph[pos_down] == '#') or ((graph[pos_left] == '#' or graph[pos_right] == '#') and graph[pos_up] == '#'):
                 cost += 1000
-
-            # if (graph[pos_left] == '#' or graph[pos_right] == '#') and not column_goals:
-            #    cost += 100
-
-            # if (graph[pos_up] == '#' or graph[pos_down] == '#') and not row_goals:
-            #    cost += 100
 
         return cost
 
@@ -399,6 +385,70 @@ class SokobanProblem(Problem):
 
         return cost + (sum(distances) / len(distances)) if distances else cost
 
+    def h7(self, node):
+        cost = self.h6(node)
+        state = node.state
+        graph = state.graph
+        box_positions = []
+        goal_positions = []
+
+        for k in state.graph:
+            if state.graph[k] == "o" or state.graph[k] == "B":
+                goal_positions.append(k)
+            elif state.graph[k] == '*':
+                box_positions.append(k)
+
+        for box in box_positions:
+            pos_up = GraphUtil.get_coords_up(box)
+            pos_down = GraphUtil.get_coords_down(box)
+            pos_left = GraphUtil.get_coords_left(box)
+            pos_right = GraphUtil.get_coords_right(box)
+
+            if ((graph[pos_left] == '#' or graph[pos_right] == '#') and graph[pos_down] == '#') or ((graph[pos_left] == '#' or graph[pos_right] == '#') and graph[pos_up] == '#'):
+                cost += 1000
+
+        return cost
+
+    def h8(self, node):
+        cost = self.h7(node)
+        cost_modifier = 4
+        radius = 3
+        state = node.state
+        graph = state.graph
+        box_positions = []
+        goal_positions = []
+
+        for k in state.graph:
+            if state.graph[k] == "o" or state.graph[k] == "B":
+                goal_positions.append(k)
+            elif state.graph[k] == '*':
+                box_positions.append(k)
+
+        for box in box_positions:
+            pos_up = GraphUtil.get_coords_up(box)
+            pos_down = GraphUtil.get_coords_down(box)
+            pos_left = GraphUtil.get_coords_left(box)
+            pos_right = GraphUtil.get_coords_right(box)
+            goal_in_radius = 0
+
+            if (graph[pos_left] == '#' and graph[pos_right] != '#' and graph[pos_up] != '#'
+                and graph[pos_down] != '#') or (graph[pos_right] == '#' and graph[pos_up] != '#'
+                                                and graph[pos_down] != '#' and graph[pos_left] != '#'):
+                for goal in goal_positions:
+                    if goal[0] in range(box[0] - radius, box[0] + radius + 1):
+                        goal_in_radius += 1
+            elif (graph[pos_up] == '#' and graph[pos_left] != '#' and graph[pos_right] != '#'
+                  and graph[pos_down] != '#') or (graph[pos_down] == '#' and graph[pos_up] != '#'
+                                                  and graph[pos_left] != '#' and graph[pos_right] != '#'):
+                for goal in goal_positions:
+                    if goal[1] in range(box[1] - radius, box[1] + radius + 1):
+                        goal_in_radius += 1
+
+            cost += (len(goal_positions) - goal_in_radius) * cost_modifier
+        
+        return cost
+
+
 
 def main(file, algorithm, verbose):
     initial_graph = graph_from_file(file)
@@ -452,59 +502,131 @@ def main(file, algorithm, verbose):
         result, total_nodes = astar_search(problem, problem.h6)
         end_time = time.time()
     elif algorithm == 10:
+        algorithm_name = "A Star Search with Heuristic 7"
+        start_time = time.time()
+        result, total_nodes = astar_search(problem, problem.h7)
+        end_time = time.time()
+    elif algorithm == 11:
+        algorithm_name = "A Star Search with Heuristic 8"
+        start_time = time.time()
+        result, total_nodes = astar_search(problem, problem.h8)
+        end_time = time.time()
+    elif algorithm == 12:
         algorithm_name = "Iterative Deepening Search with Depth Limiting Search"
         start_time = time.time()
         result, total_nodes, depth = iterative_deepening_search(problem)
         end_time = time.time()
-    elif algorithm == 11:
+    elif algorithm == 13:
         algorithm_name = "Iterative Deepening Search with A Star Heuristic 1"
         start_time = time.time()
         result, total_nodes, depth = iterative_deepening_search_astar(
             problem, 1000, h=problem.h1)
         end_time = time.time()
-    elif algorithm == 12:
+    elif algorithm == 14:
         algorithm_name = "Iterative Deepening Search with A Star Heuristic 2"
         start_time = time.time()
         result, total_nodes, depth = iterative_deepening_search_astar(
             problem, 1000, h=problem.h2)
         end_time = time.time()
-    elif algorithm == 13:
+    elif algorithm == 15:
         algorithm_name = "Iterative Deepening Search with A Star Heuristic 3"
         start_time = time.time()
         result, total_nodes, depth = iterative_deepening_search_astar(
             problem, 1000, h=problem.h3)
         end_time = time.time()
-    elif algorithm == 14:
+    elif algorithm == 16:
         algorithm_name = "Iterative Deepening Search with A Star Heuristic 4"
         start_time = time.time()
         result, total_nodes, depth = iterative_deepening_search_astar(
             problem, 1000, h=problem.h4)
         end_time = time.time()
-    elif algorithm == 15:
+    elif algorithm == 17:
         algorithm_name = "Iterative Deepening Search with A Star Heuristic 5"
         start_time = time.time()
         result, total_nodes, depth = iterative_deepening_search_astar(
             problem, 1000, h=problem.h5)
         end_time = time.time()
-    elif algorithm == 16:
+    elif algorithm == 18:
         algorithm_name = "Iterative Deepening Search with A Star Heuristic 6"
         start_time = time.time()
         result, total_nodes, depth = iterative_deepening_search_astar(
             problem, 1000, h=problem.h6)
         end_time = time.time()
-
+    elif algorithm == 19:
+        algorithm_name = "Iterative Deepening Search with A Star Heuristic 7"
+        start_time = time.time()
+        result, total_nodes, depth = iterative_deepening_search_astar(
+            problem, 1000, h=problem.h7)
+        end_time = time.time()
+    elif algorithm == 20:
+        algorithm_name = "Iterative Deepening Search with A Star Heuristic 8"
+        start_time = time.time()
+        result, total_nodes, depth = iterative_deepening_search_astar(
+            problem, 1000, h=problem.h8)
+        end_time = time.time()
+    elif algorithm == 21:
+        algorithm_name = "Greedy Best First Graph Search with Heuristic 1"
+        start_time = time.time()
+        result, total_nodes = greedy_best_first_graph_search(
+            problem, problem.h1)
+        end_time = time.time()
+    elif algorithm == 22:
+        algorithm_name = "Greedy Best First Graph Search with Heuristic 2"
+        start_time = time.time()
+        result, total_nodes = greedy_best_first_graph_search(
+            problem, problem.h2)
+        end_time = time.time()
+    elif algorithm == 23:
+        algorithm_name = "Greedy Best First Graph Search with Heuristic 3"
+        start_time = time.time()
+        result, total_nodes = greedy_best_first_graph_search(
+            problem, problem.h3)
+        end_time = time.time()
+    elif algorithm == 24:
+        algorithm_name = "Greedy Best First Graph Search with Heuristic 4"
+        start_time = time.time()
+        result, total_nodes = greedy_best_first_graph_search(
+            problem, problem.h4)
+        end_time = time.time()
+    elif algorithm == 25:
+        algorithm_name = "Greedy Best First Graph Search with Heuristic 5"
+        start_time = time.time()
+        result, total_nodes = greedy_best_first_graph_search(
+            problem, problem.h5)
+        end_time = time.time()
+    elif algorithm == 26:
+        algorithm_name = "Greedy Best First Graph Search with Heuristic 6"
+        start_time = time.time()
+        result, total_nodes = greedy_best_first_graph_search(
+            problem, problem.h6)
+        end_time = time.time()
+    elif algorithm == 27:
+        algorithm_name = "Greedy Best First Graph Search with Heuristic 7"
+        start_time = time.time()
+        result, total_nodes = greedy_best_first_graph_search(
+            problem, problem.h7)
+        end_time = time.time()
+    elif algorithm == 28:
+        algorithm_name = "Greedy Best First Graph Search with Heuristic 8"
+        start_time = time.time()
+        result, total_nodes = greedy_best_first_graph_search(
+            problem, problem.h8)
+        end_time = time.time()
+    else:
+        raise Exception("That algorithm number is not defined")
     result_length = len(result.solution())
     elapsed_time = end_time - start_time
 
     if verbose is not None:
         print("******* ESTATISTICAS *******")
-        print(f"Algorithm: {algorithm_name}")
-        print(f"Tempo de resolucao: {elapsed_time}s")
-        if 9 < algorithm < 17:
-            print(f"Profundidade de procura: {depth}")
-        print(f"Numero de passos da resolucao: {result_length}")
-        print(f"Numero de nos visitados: {total_nodes}")
-        print(f"Resolucao: {result.solution()}")
+        print("Algorithm: {}".format(algorithm_name))
+        print("Tempo de resolucao: {}s".format(elapsed_time))
+        if 11 < algorithm < 21:
+            print("Profundidade de procura: {}".format(depth))
+        print("Numero de passos da resolucao: {}".format(result_length))
+        print("Numero de nos visitados: {}".format(total_nodes))
+        print("Resolucao: {}".format(result.solution()))
+
     if verbose == 2:
         path_to_sequence(result.path())
 
@@ -516,7 +638,7 @@ if __name__ == "__main__":
     parser.add_argument("puzzle_file", type=str,
                         help="Localizacao do ficheiro de puzzle")
     parser.add_argument("algorithm", type=int,
-                        help="O algoritmo que pretende utilizar para a resolucao.\nAlgoritmos: \n* 1 - Depth First Graph Search \n* 2 - Breadth First Search\n* 3 - Uniform Cost Search\n* 4 - A Star H1\n* 5 - A Star H2\n* 6 - A Star H3\n* 7 - A Star H4\n* 8 - A Star H5\n* 9 - A Star H6\n* 10 - Iterative Deepening Search w/ Depth Limiting Search\n* 11 - Iterative Deepening Search w/ A Star H1\n* 12 - Iterative Deepening Search w/ A Star H2\n* 13 - Iterative Deepening Search w/ A Star H3\n* 14 - Iterative Deepening Search w/ A Star H4\n* 15 - Iterative Deepening Search w/ A Star H5\n* 16 - Iterative Deepening Search w/ A Star H6")
+                        help="O algoritmo que pretende utilizar para a resolucao.\nAlgoritmos: \n* 1 - Depth First Graph Search \n* 2 - Breadth First Search\n* 3 - Uniform Cost Search\n* 4 - A Star H1\n* 5 - A Star H2\n* 6 - A Star H3\n* 7 - A Star H4\n* 8 - A Star H5\n* 9 - A Star H6\n* 10 - A Star H7\n* 11 - A Star H8\n* 12 - Iterative Deepening Search w/ Depth Limiting Search\n* 13 - Iterative Deepening Search w/ A Star H1\n* 14 - Iterative Deepening Search w/ A Star H2\n* 15 - Iterative Deepening Search w/ A Star H3\n* 16 - Iterative Deepening Search w/ A Star H4\n* 17 - Iterative Deepening Search w/ A Star H5\n* 18 - Iterative Deepening Search w/ A Star H6\n* 19 - Iterative Deepening Search w/ A Star H7\n* 20 - Iterative Deepening Search w/ A Star H8\n* 21 - Greedy Best First Graph Search H1\n* 22 - Greedy Best First Graph Search H2\n* 23 - Greedy Best First Graph Search H3\n* 24 - Greedy Best First Graph Search H4\n* 25 - Greedy Best First Graph Search H5\n* 26 - Greedy Best First Graph Search H6\n* 27 - Greedy Best First Graph Search H7\n* 28 - Greedy Best First Graph Search H8")
     parser.add_argument("-v, --verbose", dest="verbose", type=int,
                         help="Modo verboso do programa\n* 1 - Estatisticas\n* 2 - Estatisticas e solucao grafica")
     args = parser.parse_args()
