@@ -1,5 +1,3 @@
-from operator import itemgetter
-
 def graph_from_file(file):
     row = 0
     column = 0
