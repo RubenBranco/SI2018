@@ -13,14 +13,16 @@ def graph_from_file(file):
                 column += 1
             row += 1
             column = 0
+
     return graph
 
 def graph_to_string(graph):
-    keys = sorted(graph.keys())
+    max_x = max(list(map(lambda x: x[0], graph.keys())))
+    max_y = max(list(map(lambda x: x[1], graph.keys())))
     string = ''
 
-    for r in range(keys[-1][0] + 1):
-        for c in range(keys[-1][1] + 1):
+    for r in range(max_y + 1):
+        for c in range(max_x + 1):
             string += graph[(c, r)]
         string += '\n'
 
