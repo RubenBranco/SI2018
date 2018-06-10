@@ -10,30 +10,66 @@ class GraphUtil:
 
     @staticmethod
     def get_coords_up(coords):
+        """
+        Requires: coords um tuplo de inteiros positivos pertencente
+                  ao conjuntos dos números naturais ℕ.
+        Ensures: Devolve None caso o valor da coordenada y = 0
+                 Caso contrário devolve y - 1.
+        """
         if coords[1] == 0:
             return None
         return (coords[0], coords[1] - 1)
 
     @staticmethod
     def get_coords_down(coords):
+        """
+        Requires: coords um tuplo de inteiros positivos pertencente
+                  ao conjuntos dos números naturais ℕ.
+        Ensures: Devolve o valor da coordenada y + 1.
+        """
         return (coords[0], coords[1] + 1)
 
     @staticmethod
     def get_coords_left(coords):
+        """
+        Requires: coords um tuplo de inteiros positivos pertencente
+                  ao conjuntos dos números naturais ℕ.
+        Ensures: Devolve None caso o valor da coordenada x = 0
+                 Caso contrário devolve x - 1.
+        """
         if coords[0] == 0:
             return None
         return (coords[0] - 1, coords[1])
 
     @staticmethod
     def get_coords_right(coords):
+        """
+        Requires: coords um tuplo de inteiros positivos pertencente
+                  ao conjuntos dos números naturais ℕ.
+        Ensures: Devolve o valor da coordenada x + 1.
+        """
         return (coords[0] + 1, coords[1])
 
     @staticmethod
     def euclidean_distance(coord1, coord2):
+        """
+        Recebe 2 coordenadas(tuplos de inteiros) como argumentos, calculando a distância
+        euclideana entre as mesmas.
+        Requires: coord1 e coord2 têm de ser tuplos de inteiros positivos pertencente
+                  ao conjuntos dos números naturais ℕ.
+        Ensures: Inteiro correspondente á distância euclidiana entre coord1, coord2.
+        """
         return math.sqrt((coord2[0] - coord1[0])**2 + (coord2[1] - coord1[1])**2)
 
     @staticmethod
     def manhattan_distance(coord1, coord2):
+        """
+        Recebe 2 coordenadas(tuplos de inteiros) como argumentos, calculando a distância
+        euclideana entre as mesmas.
+        Requires: coord1 e coord2 têm de ser tuplos de inteiros positivos pertencente
+                  ao conjuntos dos números naturais ℕ.
+        Ensures: Inteiro absoluto, correspondente á distância de Manhattan entre coord1, coord2.
+        """
         return abs(coord1[0] - coord2[0]) + abs(coord1[1] - coord2[1])
 
 
@@ -43,12 +79,27 @@ class SokobanState:
         self.graph = graph
 
     def find_restocker(self):
+        """
+        Este método tem como finalidade encontrar a posição do arrumador.
+        Ensures: Se encontrar o arrumador devolve a sua posição num tuplo de inteiros positivos
+                 pertencente ao conjunto dos números naturais ℕ. Caso não encontre o arrumador
+                 devolve None.
+        """
         for k in self.graph:
             if self.graph[k] == 'A' or self.graph[k] == 'B':
                 return k
         return None
 
     def possible_action(self, direction, cell_object, restocker_pos):
+        """
+        Este método tem como finalidade implementar a lógica do jogo, defenindo
+        as possiveis movimentações.
+        Requires: direction é uma string. Possiveis direções: up, left, right, down.
+                  cell_object é uma string de um caracter. Possiveis caracteres: *, @, #, B, A, o, .
+                  restocker_pos é um tuplo de inteiros pertencente ao conjunto dos números naturais ℕ.
+        Ensures: A ação feita em string, tanto pode ser move como push. Caso não seja possivel executar
+                 alguma ação, devolve None
+        """
         if cell_object == '*' or cell_object == '@':
             beyond_object = ''
 
@@ -93,6 +144,14 @@ class SokobanProblem(Problem):
         return values.count('o') == 0 and values.count('B') == 0 and '@' in values
 
     def actions(self, state):
+        """
+        Este método tem como função verificar consoante o estado do jogo sokoban, devolver
+        as jogadas possiveis de executar nesse estado.
+        Requires: state é um dicionário em que as chaves são as posições (tuplo de inteiros
+                  pertencente ao conjunto dos números naturais ℕ), e os seus valores são
+                  strings de um caracter.
+        Ensures: Jogadas possiveis de executar nesse estado.
+        """
         actions = []
         restocker_pos = state.find_restocker()
 
@@ -132,6 +191,16 @@ class SokobanProblem(Problem):
         return actions
 
     def result(self, state, action):
+        """
+        Este método tem como função devolver um novo estado após executar uma ação.
+        Requires: state é um dicionário em que as chaves são as posições (tuplo de inteiros
+                  pertencente ao conjunto dos números naturais ℕ), e os seus valores são
+                  strings de um caracter;
+                  action é uma string com um espaço em branco, para que possamos fazer
+                  o split da string, sendo o primeiro elemento do split, o tipo de ação
+                  e o segundo elemento do split a direção da ação.
+        Ensures: Um novo estado do jogo sokoban, após a execução da ação.
+        """
         action_type = action.split()[0]
         direction = action.split()[1]
 
@@ -249,6 +318,13 @@ class SokobanProblem(Problem):
         return c + 1
 
     def h1(self, node):
+        """
+        Heuristica 1 procura minimizar a distância das caixas aos objetivos.
+        Isto é conseguido a partir de distância euclidiana.
+        Requires:
+        Ensures: Distância média de todos os pares (caixa, objetivo),
+                 caixas que não estão em objetivos.
+        """
         state = node.state
         goal_positions = []
         box_positions = []
@@ -268,6 +344,15 @@ class SokobanProblem(Problem):
         return sum(distances) / len(distances) if distances else 0
 
     def h2(self, node):
+        """
+        A heurística 2 utiliza a heurística 1 e acrescenta um novo cálculo
+        semelhante, em que pretende aproximar os jogadores às caixas,
+        querendo premiar estados em que o arrumador está mais perto,
+        em média, das caixas. Utilizando distância de euclidiana.
+        Requires:
+        Ensures: Custo da heuristica 1, mais a distância média de todos
+                 os pares (caixa, arrumador), caixas que não estão em objetivo.
+        """
         cost = self.h1(node)
         state = node.state
         graph = state.graph
@@ -286,6 +371,13 @@ class SokobanProblem(Problem):
         return cost + (sum(distances) / len(distances)) if distances else cost
 
     def h3(self, node):
+        """
+        A heurística 3 procura evitar uma situação de deadlock percorrendo
+        as caixas que não estão situam-se num objetivo e verificando se estão num canto.
+        Se estiverem, é dado um valor de 1000 como penalidade.
+        Requires:
+        Ensures: Custo do sumatório da heuristica 1,2 e 3.
+        """
         cost = self.h2(node)
         state = node.state
         graph = state.graph
@@ -310,6 +402,14 @@ class SokobanProblem(Problem):
         return cost
 
     def h4(self, node):
+        """
+        A heurística 4 procura evitar uma situação de deadlock, verificando se
+        uma caixa estiver encostada a uma parede, é varrida as colunas ou linhas
+        adjacentes com um raio dado (raio utilizado é 3).
+        Requires:
+        Ensures: Custo do sumatório da heuristica 1,2,3 mais o custo da heuristica 4
+                 dado por (numero total de objetivos total - numero total de objetivos em raio) * custo modificador (custo modificador utilizado é 4).
+        """
         cost = self.h3(node)
         cost_modifier = 4
         radius = 3
@@ -349,6 +449,13 @@ class SokobanProblem(Problem):
         return cost
 
     def h5(self, node):
+        """
+        Heuristica 5 procura minimizar a distância das caixas aos objetivos.
+        Isto é conseguido a partir da distância de Manhattan.
+        Requires:
+        Ensures: Distância média de todos os pares (caixa, objetivo),
+                 caixas que não estão em objetivos.
+        """
         state = node.state
         goal_positions = []
         box_positions = []
@@ -368,6 +475,15 @@ class SokobanProblem(Problem):
         return sum(distances) / len(distances) if distances else 0
 
     def h6(self, node):
+        """
+        A heurística 6 utiliza a heurística 5 e acrescenta um novo cálculo
+        semelhante, em que pretende aproximar os jogadores às caixas,
+        querendo premiar estados em que o arrumador está mais perto,
+        em média, das caixas. Utilizando distância de Manhattan.
+        Requires:
+        Ensures: Custo da heuristica 5, mais a distância média de todos
+                 os pares (caixa, arrumador), caixas que não estão em objetivo.
+        """
         cost = self.h5(node)
         state = node.state
         graph = state.graph
@@ -386,6 +502,13 @@ class SokobanProblem(Problem):
         return cost + (sum(distances) / len(distances)) if distances else cost
 
     def h7(self, node):
+        """
+        A heurística 7 procura evitar uma situação de deadlock percorrendo
+        as caixas que não estão situam-se num objetivo e verificando se estão num canto.
+        Se estiverem, é dado um valor de 1000 como penalidade.
+        Requires:
+        Ensures: Custo do sumatório da heuristica 5,6 e 7.
+        """
         cost = self.h6(node)
         state = node.state
         graph = state.graph
@@ -410,6 +533,14 @@ class SokobanProblem(Problem):
         return cost
 
     def h8(self, node):
+        """
+        A heurística 8 procura evitar uma situação de deadlock, verificando se
+        uma caixa estiver encostada a uma parede, é varrida as colunas ou linhas
+        adjacentes com um raio dado (raio utilizado é 3).
+        Requires:
+        Ensures: Custo do sumatório da heuristica 5,6,7 mais o custo da heuristica 8
+                 dado por (numero total de objetivos total - numero total de objetivos em raio) * custo modificador (custo modificador utilizado é 4).
+        """
         cost = self.h7(node)
         cost_modifier = 4
         radius = 3
@@ -445,9 +576,8 @@ class SokobanProblem(Problem):
                         goal_in_radius += 1
 
             cost += (len(goal_positions) - goal_in_radius) * cost_modifier
-        
-        return cost
 
+        return cost
 
 
 def main(file, algorithm, verbose):
