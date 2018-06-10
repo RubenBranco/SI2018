@@ -29,7 +29,6 @@ def graph_to_string(graph):
               e os seus valores strings(de um caracter).
     Ensures: Uma representação em string do dicionário dado como argumento.
     """
-
     max_x = max(list(map(lambda x: x[0], graph.keys())))
     max_y = max(list(map(lambda x: x[1], graph.keys())))
     string = ''

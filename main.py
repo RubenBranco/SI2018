@@ -140,6 +140,8 @@ class SokobanProblem(Problem):
         super().__init__(initial)
 
     def goal_test(self, state):
+        """
+        """
         values = list(state.graph.values())
         return values.count('o') == 0 and values.count('B') == 0 and '@' in values
 
@@ -313,6 +315,9 @@ class SokobanProblem(Problem):
         return SokobanState(graph=graph)
 
     def path_cost(self, c, state1, action, state2):
+        """
+        falta este
+        """
         if action.split()[0] == 'Push':
             return c + 2
         return c + 1
